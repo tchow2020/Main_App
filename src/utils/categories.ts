@@ -90,7 +90,7 @@ export const categories = [
 
   {
     id: '4',
-    name: "Caneca",
+    name: "Canecas",
     products: [
       {
         id: '1',

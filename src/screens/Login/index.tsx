@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { Button, Input } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { Formik } from 'formik';
 // import { InputRound } from "./componente";
 
 export const LoginProps = () => {
@@ -24,42 +25,48 @@ export const LoginProps = () => {
       <View style={{ backgroundColor: "red" }}></View>
 
       <View style={styles.container_2}>
-        <View>
-          <Input
-            style={styles.input}
-            placeholder="E-mail"
-            rightIcon={{ name: "person", color: "black" }} autoCompleteType={undefined}          />
+        <Formik>
+          <View>
+            <Input
+              style={styles.input}
+              placeholder="E-mail"
+              rightIcon={{ name: "person", color: "black" }}
+              autoCompleteType={undefined}
+            />
 
-          <Input
-            placeholder="Senha"
-            style={styles.input}
-            secureTextEntry={true}
-            rightIcon={{ name: "lock", color: "black" }} autoCompleteType={undefined}          />
-        </View>
+            <Input
+              placeholder="Senha"
+              style={styles.input}
+              secureTextEntry={true}
+              rightIcon={{ name: "lock", color: "black" }}
+              autoCompleteType={undefined}
+            />
+          </View>
 
-        <View style={{ marginTop: 20, marginBottom: 50 }}>
-          <Button
-            onPress={open}
-            buttonStyle={[{ backgroundColor: "#fc0317" }]}
-            title={"Entrar"}
-          />
+          <View style={{ marginTop: 20, marginBottom: 50 }}>
+            <Button
+              onPress={open}
+              buttonStyle={[{ backgroundColor: "#fc0317" }]}
+              title={"Entrar"}
+            />
+          </View>
+        </Formik>
+            <Text style={styles.botaotext}>Esqueceu a senha?</Text>
+            <TouchableOpacity onPress={() => nav.navigate("Cadastro")}>
+              <Text style={styles.botaotext}>Não tenho cadastro</Text>
+            </TouchableOpacity>
+          </View>
 
-          <Text style={styles.botaotext}>Esqueceu a senha?</Text>
-          <TouchableOpacity onPress={() => nav.navigate("Cadastro")}>
-            <Text style={styles.botaotext}>Não tenho cadastro</Text>
-          </TouchableOpacity>
-        </View>
+          <View style={{}}>
+            <Text>&copy; CN Camisas de Animes LTDA - É o mito 17</Text>
+          </View>
 
-        <View style={{}}>
-          <Text>&copy; CN Camisas de Animes LTDA - É o mito 17</Text>
-        </View>
-
-        <View style={styles.containerRodape}>
-          <Icon name="instagram" size={25} />
-          <Icon name="facebook" size={25} />
-          <Icon name="whatsapp" size={25} />
-          <Icon name="twitter" size={25} />
-        </View>
+          <View style={styles.containerRodape}>
+            <Icon name="instagram" size={25} />
+            <Icon name="facebook" size={25} />
+            <Icon name="whatsapp" size={25} />
+            <Icon name="twitter" size={25} />
+          </View>
       </View>
     </View>
   );

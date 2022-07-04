@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 10
   },
+  
   textname: {
     fontSize: 24,
     fontWeight: 'bold'

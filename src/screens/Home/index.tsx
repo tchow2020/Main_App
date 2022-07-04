@@ -49,7 +49,7 @@ export function Home() {
       </ScrollView>
 
       <Text style={styles.text}>
-        Olá Luiz,{'\n'} tenha um otimo dia!
+        Olá Luiz,{'\n'} tenha um ótimo dia!
       </Text>
 
       <ScrollView showsVerticalScrollIndicator={false} scrollEventThrottle={16}>

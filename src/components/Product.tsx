@@ -5,7 +5,8 @@ import {
   View,
   TouchableOpacity,
   StyleSheet,
-  Dimensions
+  Dimensions,
+  ScrollView
 } from 'react-native';
 
 interface IProductProps extends TouchableOpacityProps {
@@ -19,6 +20,7 @@ export function Product({ name, price, ...rest }: IProductProps) {
       style={styles.container}
       {...rest}
     >
+    <ScrollView showsVerticalScrollIndicator={false} >
       <View style={styles.image} />
 
       <Text style={styles.nameText}>
@@ -27,6 +29,8 @@ export function Product({ name, price, ...rest }: IProductProps) {
       <Text style={styles.priceText}>
         R$ {price}
       </Text>
+    </ScrollView>
+
     </TouchableOpacity>
   );
 }
@@ -48,6 +52,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginVertical: 15
   },
+
   priceText: {
 
   }
