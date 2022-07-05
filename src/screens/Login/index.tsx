@@ -8,10 +8,12 @@ import {
   View,
   TouchableOpacity,
   Linking,
+  ActivityIndicatorBase,
 } from "react-native";
 import { Button, Input } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { Formik } from 'formik';
+import { Formik } from "formik";
+import * as Yup from "yup";
 // import { InputRound } from "./componente";
 
 export const LoginProps = () => {
@@ -20,53 +22,96 @@ export const LoginProps = () => {
     nav.navigate("Home");
   }
 
+  const logar = async (dados: any) => {
+    console.log(dados);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    if (dados.email == "teste@hotmail.com" && dados.senha == "123456")
+      console.log("Login efetuado com sucesso!");
+    else console.log("Email ou senha incorretas!");
+  };
+
   return (
     <View style={styles.container}>
       <View style={{ backgroundColor: "red" }}></View>
 
       <View style={styles.container_2}>
-        <Formik>
-          <View>
-            <Input
-              style={styles.input}
-              placeholder="E-mail"
-              rightIcon={{ name: "person", color: "black" }}
-              autoCompleteType={undefined}
-            />
+        <Formik
+          initialValues={{ email: "", senha: "" }}
+          onSubmit={logar}
+          validationSchema={Yup.object({
+            email: Yup.string().required("Este campo é obrigatório"),
+            senha: Yup.string()
+              .required("Este campo é obrigatório")
+              .min(6, "Pelo menos 6 caracteres"),
+          })}
+        >
+          {({
+            handleChange,
+            handleSubmit,
+            isSubmitting,
+            errors,
+            touched,
+            onBlur,
+          }) => (
+            <>
+              <View>
+                <Input
+                  style={styles.input}
+                  placeholder="E-mail"
+                  rightIcon={{ name: "person", color: "black" }}
+                  onChangeText={handleChange("email")}
+                  autoCompleteType={undefined}
+                />
+                <Text
+                  style={{ color: "white", fontSize: 20, textAlign: "center" }}
+                >
+                  {errors.email}
+                </Text>
 
-            <Input
-              placeholder="Senha"
-              style={styles.input}
-              secureTextEntry={true}
-              rightIcon={{ name: "lock", color: "black" }}
-              autoCompleteType={undefined}
-            />
-          </View>
+                <Input
+                  placeholder="Senha"
+                  style={styles.input}
+                  secureTextEntry={true}
+                  rightIcon={{ name: "lock", color: "black" }}
+                  onChangeText={handleChange("senha")}
+                  autoCompleteType={undefined}
+                />
+                <Text
+                  style={{ color: "white", fontSize: 20, textAlign: "center" }}
+                >
+                  {errors.senha}
+                </Text>
+              </View>
 
-          <View style={{ marginTop: 20, marginBottom: 50 }}>
-            <Button
-              onPress={open}
-              buttonStyle={[{ backgroundColor: "#fc0317" }]}
-              title={"Entrar"}
-            />
-          </View>
+              <View style={{ marginTop: 20, marginBottom: 50 }}>
+                {isSubmitting && (
+                  <Button
+                    onPress={() => handleSubmit()}
+                    buttonStyle={[{ backgroundColor: "#fc0317" }]}
+                    raised={true}
+                    title={"Entrar"}
+                  />
+                )}
+              </View>
+            </>
+          )}
         </Formik>
-            <Text style={styles.botaotext}>Esqueceu a senha?</Text>
-            <TouchableOpacity onPress={() => nav.navigate("Cadastro")}>
-              <Text style={styles.botaotext}>Não tenho cadastro</Text>
-            </TouchableOpacity>
-          </View>
 
-          <View style={{}}>
-            <Text>&copy; CN Camisas de Animes LTDA - É o mito 17</Text>
-          </View>
+        <Text style={styles.botaotext}>Esqueceu a senha?</Text>
+        <TouchableOpacity onPress={() => nav.navigate("Cadastro")}>
+          <Text style={styles.botaotext}>Não tenho cadastro</Text>
+        </TouchableOpacity>
+      </View>
 
-          <View style={styles.containerRodape}>
-            <Icon name="instagram" size={25} />
-            <Icon name="facebook" size={25} />
-            <Icon name="whatsapp" size={25} />
-            <Icon name="twitter" size={25} />
-          </View>
+      <View style={{}}>
+        <Text>&copy; CN Camisas de Animes LTDA - É o mito 17</Text>
+      </View>
+
+      <View style={styles.containerRodape}>
+        <Icon name="instagram" size={25} />
+        <Icon name="facebook" size={25} />
+        <Icon name="whatsapp" size={25} />
+        <Icon name="twitter" size={25} />
       </View>
     </View>
   );
