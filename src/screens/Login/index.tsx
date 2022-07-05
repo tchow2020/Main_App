@@ -9,11 +9,16 @@ import {
   TouchableOpacity,
   Linking,
   ActivityIndicatorBase,
+  ToastAndroid,
 } from "react-native";
 import { Button, Input } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+import "firebase/compat/app";
+
 // import { InputRound } from "./componente";
 
 export const LoginProps = () => {
@@ -25,9 +30,13 @@ export const LoginProps = () => {
   const logar = async (dados: any) => {
     console.log(dados);
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    if (dados.email == "teste@hotmail.com" && dados.senha == "123456")
-      console.log("Login efetuado com sucesso!");
-    else console.log("Email ou senha incorretas!");
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(dados.email, dados.senha)
+      .then((usuario) => nav.navigate("Tela-Home"))
+      .catch((erro) => {
+        ToastAndroid.show("email ou senha incorreta", 3000);
+      });
   };
 
   return (

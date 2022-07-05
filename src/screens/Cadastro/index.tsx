@@ -7,36 +7,74 @@ import {
   View,
   TouchableOpacity,
   Alert,
+  ToastAndroid,
 } from "react-native";
 import { Button } from "react-native-elements";
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+import "firebase/compat/app";
+import { Formik } from "formik";
+import * as Yup from "yup";
 
 export const CadastroProps = () => {
+
+  const cadastro = async (dados: any) => {
+    firebase.auth().createUserWithEmailAndPassword(dados.email, dados.senha)
+    .then(() => {
+      ToastAndroid.show("Sua conta foi criada com sucesso!", 3000);
+    })
+    .catch(() => {
+      ToastAndroid.show("Esse e-mail já é existente", 3000);
+    });
+    
+      
+          console.log(dados);       
+  }
+
   return (
     <View style={styles.container}>
-      <View style={{ backgroundColor: "red" }} />
-      <View>
+      <Formik
+       initialValues={{ email: "", senha: "" }}
+       onSubmit={cadastro}
+       validationSchema={Yup.object({
+         email: Yup.string().required("Este campo é obrigatório"),
+         senha: Yup.string()
+           .required("Este campo é obrigatório")
+           .min(6, "Pelo menos 6 caracteres"),
+       })}
+      >
+    
+        <View style={{ backgroundColor: "red" }} />
+        {({
+            handleSubmit,
+          }) => (
         <View>
-          <Text style={{ fontSize: 25, textAlign: "center" }}>
-            Crie sua conta agora
-          </Text>
+          <View>
+            <Text style={{ fontSize: 25, textAlign: "center" }}>
+              Crie sua conta agora
+            </Text>
 
-          <TextInput placeholder="Nome" style={styles.input} />
+            <TextInput placeholder="Nome" style={styles.input} />
 
-          <TextInput placeholder="E-mail" style={styles.input} />
+            <TextInput placeholder="E-mail" style={styles.input} />
 
-          <TextInput placeholder="Telefone (Opcional)" style={styles.input} />
+            <TextInput placeholder="Telefone (Opcional)" style={styles.input} />
 
-          <TextInput placeholder="Senha" style={styles.input} />
-        </View>
+            <TextInput placeholder="Senha" style={styles.input} />
+          </View>
 
-        <View style={{ marginTop: 100 }}>
-          <Button
-            buttonStyle={[{ backgroundColor: "#fc0317" }]}
-            title={"Cadastrar"}
-          />
-        </View>
+          <View style={{ marginTop: 100 }}>
+            <Button
+              buttonStyle={[{ backgroundColor: "#fc0317" }]}
+              title={"Cadastrar"}
+              onPress={() => handleSubmit()}
+            />
+          </View>
       </View>
+    )}
+      </Formik>
     </View>
+    
   );
 };
 
